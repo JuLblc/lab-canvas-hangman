@@ -27,16 +27,19 @@ class Hangman {
   addCorrectLetter(letter) {
     // ... your code goes here
     this.guessedLetters += letter; 
+    console.log("lettre devinées:", this.guessedLetters);
   }
 
   addWrongLetter(letter) {
     // ... your code goes here
     this.errorsLeft--;
     this.letters.push(letter);
+    console.log("tableau mauvaise lettre:", this.letters, "essais restants:",this.errorsLeft);
   }
 
   checkGameOver() {
     // ... your code goes here
+
     return this.errorsLeft === 0 ? true : false ;
   }
 
@@ -55,15 +58,40 @@ if (startGameButton) {
     hangman = new Hangman(['node', 'javascript', 'react', 'miami', 'paris', 'amsterdam', 'lisboa']);
 
     // HINT (uncomment when start working on the canvas portion of the lab)
-    // hangman.secretWord = hangman.pickWord();
-    // hangmanCanvas = new HangmanCanvas(hangman.secretWord);
+    hangman.secretWord = hangman.pickWord();
+    hangmanCanvas = new HangmanCanvas(hangman.secretWord);
 
     // ... your code goes here
+    console.log("le mot à trouver est", hangman.secretWord);
   });
 }
 
 document.addEventListener('keydown', event => {
   // React to user pressing a key
   // ... your code goes here
-  console.log(event.key);
+  
+  let clickTouch = event.key;
+  // Checker si lettre
+  if (hangman.checkIfLetter(clickTouch)){
+    console.log(clickTouch, "est une lettre");
+    // Checker si dans le secret mot
+    if (hangman.secretWord.indexOf(clickTouch) !== -1){
+      console.log(clickTouch, "fait partie du mot");
+      hangman.addCorrectLetter(clickTouch);
+      // Gagné?
+      if (hangman.checkWinner()){
+        console.log("gagné")
+      }
+    } else {
+      // checker si deja clicker auparavant
+      console.log("test mauvaise lettre déjà testée",hangman.checkClickedLetters(clickTouch));
+      if (hangman.checkClickedLetters(clickTouch)){
+        hangman.addWrongLetter(clickTouch);
+      }      
+      // Perdu ?
+      if (hangman.checkGameOver()){
+        console.log("perdu");
+      }
+    }
+  }  
 });
