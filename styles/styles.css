@@ -21,9 +21,17 @@ header {text-align:center;}
   font-size: 24px;
   border-radius: 5px;
 }
-
-#hangman {
-
+.winner{
+  visibility: hidden;
+  position: absolute;
+  height: 450px;
+  width: auto;
+  top:40%; left:24%;
+}
+.looser{
+  visibility: hidden;
+  position: absolute;
+  top:50%; left:27%;
 }
 
 .container {display:inline-block; position: relative;}
